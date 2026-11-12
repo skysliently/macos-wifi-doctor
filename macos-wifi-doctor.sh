@@ -189,7 +189,7 @@ rt=$(printf '%s\n' "$out" | sed -nE 's#.*= ([0-9.]+)/([0-9.]+)/([0-9.]+)/([0-9.]
 WAVG="—"; WMAX="—"; WJIT="—"
 [ -n "$rt" ] && WAVG=$(echo "$rt" | awk '{print $2}') && WMAX=$(echo "$rt" | awk '{print $3}') && WJIT=$(echo "$rt" | awk '{print $4}')
 WV=$(echo "${loss:-100}" | awk '{v=($1+0>2)?"异常(丢包)":($1+0>0)?"偶发丢包":"正常"; print v}')
-fmt "公网丢包/延迟" "丢包 ${loss:-NA}% | 平均 ${WAVG}ms / 最大 ${WMAX}ms —— $WV"
+fmt "公网丢包/延迟" "丢包 ${loss:-NA}% | 平均 ${WAVG}ms / 最大 ${WMAX}ms / 抖动 ${WJIT}ms —— $WV"
 big=$(ping -c 15 -s 1200 "$WAN" 2>&1)
 bloss=$(printf '%s\n' "$big" | sed -nE 's/.* ([0-9.]+)% packet loss.*/\1/p')
 BV=$(echo "${bloss:-100}" | awk '{v=($1+0>2)?"异常":($1+0>0)?"偶发丢包":"正常"; print v}')
